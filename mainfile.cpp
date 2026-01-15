@@ -2783,6 +2783,7 @@ void keyboard(unsigned char key, int x, int y)
 
 void mouse(int button, int state, int x, int y)
 {
+    //Train
     if(isDay)
     {
         if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)   // Pause/resume
@@ -2799,6 +2800,23 @@ void mouse(int button, int state, int x, int y)
             }
         }
     }
+    if(!isDay)
+    {
+        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)   // Pause/resume
+        {
+            trainPaused = !trainPaused;
+            if (trainPaused)
+            {
+                savedTrainSpeed = trainSpeed;
+                trainSpeed = 0;
+            }
+            else
+            {
+                trainSpeed = savedTrainSpeed;
+            }
+        }
+    }
+    //Sun
     if(isDay)
     {
         if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
@@ -2817,7 +2835,7 @@ void mouse(int button, int state, int x, int y)
     }
     if(!isDay)
     {
-        if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)   // Pause/resume
+        if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)   // Pause/resume
         {
             moonPaused = !moonPaused;
             if (moonPaused)
@@ -12046,9 +12064,9 @@ int main(int argc, char** argv)
     cout<<"********** >>> Main City Specifics <<< **********"<<endl;
     cout<<"Press key_up / key_down    : Train speed (Day/Night)"<<endl;
     cout<<"Press key_left / key_right : Sun speed (Day)/Moon speed (Night)"<<endl;
-    cout<<"Press Page Up / Page Down  : Cargo Truck speed (Night)"<<endl<<endl;
+    cout<<"Press Page Up / Page Down  : Cargo Truck speed (Day/Night)"<<endl<<endl;
     cout<<"Mouse Left Click           : Stop/Start Train (Day) / Moon (Night)"<<endl;
-    cout<<"Mouse Right Click          : Stop/Start Sun (Day) / Truck (Night)"<<endl;
+    cout<<"Mouse Right Click          : Stop/Start Sun/Moon"<<endl;
     cout<<"Mouse Middle Click          : Stop/Start Truck (Day/Night)"<<endl;
     cout<<"Press SPACE                : Stop Everything"<<endl;
 
