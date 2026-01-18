@@ -6597,54 +6597,51 @@ void mohaiminul()
 /// ******************************************************** >>>Mohaimin2 (KLCC) <<< ******************************************************************
 /// **************************************************************************************************************************************************
 
-// KLCC Helper Functions and Variables
+// Helper Functions and Variables
 const float KLCC_PI = 3.1415926535f;
-bool isDayM2 = true;  // Day/night mode for scenarioMohaimin2
+bool isDayM2 = true;
 float sunX = 150.0f;
 float sunY = 600.0f;
-float sunSpeedM2 = 0.5f;  // Sun movement speed for scenarioMohaimin2
+float sunSpeedM2 = 0.5f;
 
-// Moon variables for scenarioMohaimin2
+// Moon variables
 float moonX = 850.0f;
 float moonY = 600.0f;
-float moonSpeedM2 = 0.5f;  // Moon movement speed (opposite direction to sun)
+float moonSpeedM2 = 0.5f;  // Moon movement speed
 
-// --- CLOUD VARIABLES (Independent Animation) ---
-// These control how much each cloud has moved from its original position
-float c1_off = 0.0f; float s1 = 0.8f; // Slow
-float c2_off = 0.0f; float s2 = 1.0f; // Fast
-float c3_off = 0.0f; float s3 = 0.6f; // Very Slow (Far away)
-float c4_off = 0.0f; float s4 = 0.8f; // Medium
-float c5_off = 0.0f; float s5 = 0.5f; // Medium Fast
+// --- CLOUD VARIABLES ---
+float c1_off = 0.0f; float s1 = 0.8f;
+float c2_off = 0.0f; float s2 = 1.0f;
+float c3_off = 0.0f; float s3 = 0.6f;
+float c4_off = 0.0f; float s4 = 0.8f;
+float c5_off = 0.0f; float s5 = 0.5f;
 
 //Train Variables
-float trainKLCCX = 1000.0f;     // Renamed from trainX
-float trainKLCCSpeed = 2.0f;    // Renamed from trainSpeed
+float trainKLCCX = 1000.0f;
+float trainKLCCSpeed = 2.0f;
 
-//Car Variables
 // --- Cybertruck Variables ---
-float carKLCCX = -150.0f;       // Start off-screen (Left)
-float carKLCCSpeed = 3.0f;      // Speed
-float carWheelAngle = 0.0f;     // For spinning wheels
+float carKLCCX = -150.0f;
+float carKLCCSpeed = 3.0f;
+float carWheelAngle = 0.0f;
 
-// ==========================================
-// BUS VARIABLES (KLCC SCENARIO)
-// ==========================================
-float busXM2 = 1150.0f;        // Start off-screen (Left)
-bool busFaceRightM2 = true;    // Bus direction
-float busWheelAngleM2 = 0.0f;  // Wheel rotation angle
-float busSpeedM2 = 4.5f;       // Speed of the bus
+// ====================
+// BUS VARIABLES
+// ====================
+float busXM2 = 1150.0f;
+bool busFaceRightM2 = true;
+float busWheelAngleM2 = 0.0f;
+float busSpeedM2 = 4.5f;
 
 //Fountains
-// 0=Jets, 1=+Low, 2=+Mid, 3=+High
 int fountainStageM2 = 0;
 
-// Toggle variables for scenarioMohaimin2
+// Toggle variables
 bool lampsOnM2 = true;  // Lampposts on/off
 bool fountainsOnM2 = true;  // Fountains on/off
 bool isTrainPausedM2 = false; // False = Train is running by default
 
-// Circle (Filled) - KLCC Helper
+// Circle
 void drawCircle(float cx, float cy, float radius, float r, float g, float b)
 {
     glColor3f(r, g, b);
@@ -6658,7 +6655,7 @@ void drawCircle(float cx, float cy, float radius, float r, float g, float b)
     glEnd();
 }
 
-// Cloud - KLCC Helper
+// Cloud
 void drawCloud(float x, float y, float scale)
 {
     // Bottom puffs
@@ -6683,7 +6680,6 @@ void drawCybertruckKLCC(float x, float y, float s, bool faceRight)
         glTranslatef(-16.0f, 0.0f, 0.0f);
     }
 
-    // 1. Disable Lighting so the car body colors are solid (Toon style)
     glDisable(GL_LIGHTING);
 
     // --- BODY ---
@@ -6747,7 +6743,7 @@ void drawCybertruckKLCC(float x, float y, float s, bool faceRight)
     glVertex2f(15.2f, 5.1f);
     glEnd();
 
-    // --- VISUAL BEAM (Only drawn at Night) ---
+    // --- VISUAL BEAM ---
     if (!isDayM2)
     {
         glEnable(GL_BLEND);
@@ -6811,33 +6807,29 @@ void drawBusKLCC(float x, float y, float s, bool faceRight)
     // --- DIRECTION LOGIC ---
     if (!faceRight)
     {
-        // 1. Rotate 180 degrees to face left
+        // Rotate 180 degrees to face left
         glTranslatef(80.0f, 0.0f, 0.0f);
         glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
         glTranslatef(-80.0f, 0.0f, 0.0f);
 
-        // 2. CRITICAL FIX: FLIP NORMAL FOR LEFT
-        // Since the object is rotated 180, (0,0,1) would point away.
-        // We set it to (0,0,-1) so the rotation flips it back towards the camera.
         glNormal3f(0.0f, 0.0f, -1.0f);
     }
     else
     {
-        // Standard Normal for Right
         glNormal3f(0.0f, 0.0f, 1.0f);
     }
 
-    // ==========================================
-    // 1. MAIN BODY (Two-Tone Red)
-    // ==========================================
+    // ====================
+    // 1. MAIN BODY
+    // ====================
 
     // Lower Body (Darker Red)
     glColor3f(0.8f, 0.1f, 0.1f);
     glBegin(GL_POLYGON);
-        glVertex2f(0, 10);    // Rear Bottom
-        glVertex2f(160, 10);  // Front Bottom
-        glVertex2f(160, 45);  // Front Middle
-        glVertex2f(0, 45);    // Rear Middle
+        glVertex2f(0, 10);
+        glVertex2f(160, 10);
+        glVertex2f(160, 45);
+        glVertex2f(0, 45);
     glEnd();
 
     // Upper Body (Lighter Red)
@@ -6845,8 +6837,8 @@ void drawBusKLCC(float x, float y, float s, bool faceRight)
     glBegin(GL_POLYGON);
         glVertex2f(0, 45);
         glVertex2f(160, 45);
-        glVertex2f(155, 80);  // Front Roof Slope
-        glVertex2f(5, 80);    // Rear Roof Slope
+        glVertex2f(155, 80);
+        glVertex2f(5, 80);
     glEnd();
 
     // Roof Top (Grey)
@@ -6856,26 +6848,26 @@ void drawBusKLCC(float x, float y, float s, bool faceRight)
         glVertex2f(153, 85); glVertex2f(7, 85);
     glEnd();
 
-    // ==========================================
+    // ===========================
     // 2. WINDOWS & GLASS
-    // ==========================================
+    // ===========================
     glColor3f(0.2f, 0.7f, 0.9f); // Glass Blue
 
-    // Front Windshield (Large, Angled)
+    // Front Windshield
     glBegin(GL_POLYGON);
         glVertex2f(150, 45);
         glVertex2f(160, 45);
-        glVertex2f(155, 78); // Top Front
+        glVertex2f(155, 78);
         glVertex2f(135, 78);
     glEnd();
 
-    // Side Windows (Strip)
+    // Side Windows
     glBegin(GL_QUADS);
         glVertex2f(10, 50);  glVertex2f(130, 50);
         glVertex2f(130, 75); glVertex2f(10, 75);
     glEnd();
 
-    // Window Pillars (Black Frames)
+    // Window Pillars
     glColor3f(0.1f, 0.1f, 0.1f);
     glLineWidth(2.0f);
     glBegin(GL_LINES);
@@ -6884,11 +6876,11 @@ void drawBusKLCC(float x, float y, float s, bool faceRight)
         glVertex2f(100, 50); glVertex2f(100, 75);
     glEnd();
 
-    // ==========================================
-    // 3. DETAILS (Bumpers, Lights, Fenders)
-    // ==========================================
+    // ======================
+    // DETAILS
+    // ======================
 
-    // Bumpers (Dark Grey)
+    // Bumpers
     glColor3f(0.2f, 0.2f, 0.2f);
     glBegin(GL_QUADS);
         // Front Bumper
@@ -6899,7 +6891,7 @@ void drawBusKLCC(float x, float y, float s, bool faceRight)
         glVertex2f(2, 20);  glVertex2f(-2, 20);
     glEnd();
 
-    // Wheel Fenders (Black Arches)
+    // Wheel Fenders
     glColor3f(0.15f, 0.15f, 0.2f);
     // Rear Arch
     glBegin(GL_POLYGON);
@@ -6912,14 +6904,14 @@ void drawBusKLCC(float x, float y, float s, bool faceRight)
         glVertex2f(145, 25); glVertex2f(115, 25);
     glEnd();
 
-    // Headlight (Bright Yellow)
+    // Headlight
     glColor3f(1.0f, 1.0f, 0.0f);
     glBegin(GL_QUADS);
         glVertex2f(158, 15); glVertex2f(161, 15);
         glVertex2f(161, 25); glVertex2f(158, 25);
     glEnd();
 
-    // Taillight (Red)
+    // Taillight
     glColor3f(1.0f, 0.0f, 0.0f);
     glBegin(GL_QUADS);
         glVertex2f(-1, 15); glVertex2f(1, 15);
@@ -6927,7 +6919,7 @@ void drawBusKLCC(float x, float y, float s, bool faceRight)
     glEnd();
 
     // ==========================================
-    // 4. WHEELS (Cybertruck Style: White & Blue)
+    // 4. WHEELS
     // ==========================================
     auto drawSpokes = [](float r) {
         glLineWidth(2.0f);
@@ -6960,9 +6952,9 @@ void drawBusKLCC(float x, float y, float s, bool faceRight)
         drawSpokes(7.0f);
     glPopMatrix();
 
-    // ==========================================
-    // 5. VISUAL BEAM (Night Only)
-    // ==========================================
+    // =======================
+    // 5. VISUAL BEAM
+    // =======================
     if (!isDayM2)
     {
         glEnable(GL_BLEND);
@@ -6970,9 +6962,9 @@ void drawBusKLCC(float x, float y, float s, bool faceRight)
         glColor4f(1.0f, 1.0f, 0.8f, 0.3f);
 
         glBegin(GL_TRIANGLES);
-            glVertex2f(161, 20);       // Headlight Source
-            glVertex2f(350, 0);        // Ground target (Far)
-            glVertex2f(350, 40);       // High target (Far)
+            glVertex2f(161, 20);
+            glVertex2f(350, 0);
+            glVertex2f(350, 40);
         glEnd();
         glDisable(GL_BLEND);
     }
@@ -6985,7 +6977,7 @@ void drawBusKLCC(float x, float y, float s, bool faceRight)
 
 
 
-// Sun update function for scenarioMohaimin2
+// Sun update function
 void updateSunM2(int value)
 {
     if(isDayM2)
@@ -7000,7 +6992,7 @@ void updateSunM2(int value)
     glutTimerFunc(16, updateSunM2, 0);
 }
 
-// Moon update function for scenarioMohaimin2
+// Moon update function
 void updateMoonM2(int value)
 {
     if(!isDayM2)
@@ -7019,38 +7011,36 @@ void updateMoonM2(int value)
     glutTimerFunc(16, updateMoonM2, 0);
 }
 
+// Cloud update function
 
 void updateCloudsKLCC(int value)
 {
     if (scenarioMohaimin2)
     {
-        // TARGET: We want them to reappear at X = 1050 (Just off the right edge)
-        // Formula: New_Offset = 1050 - Original_X_Position
-
-        // --- CLOUD 1 (Original X ~ 150) ---
+        // --- CLOUD 1  ---
         c1_off -= s1;
         if (150 + c1_off < -150)
-            c1_off = 900; // 150 + 900 = 1050
+            c1_off = 900;
 
-        // --- CLOUD 2 (Original X ~ 350) ---
+        // --- CLOUD 2  ---
         c2_off -= s2;
         if (350 + c2_off < -150)
-            c2_off = 700; // 350 + 700 = 1050
+            c2_off = 700;
 
-        // --- CLOUD 3 (Original X ~ 550) ---
+        // --- CLOUD 3  ---
         c3_off -= s3;
         if (550 + c3_off < -150)
-            c3_off = 500; // 550 + 500 = 1050
+            c3_off = 500;
 
-        // --- CLOUD 4 (Original X ~ 800) ---
+        // --- CLOUD 4  ---
         c4_off -= s4;
         if (800 + c4_off < -150)
-            c4_off = 250; // 800 + 250 = 1050
+            c4_off = 250;
 
-        // --- CLOUD 5 (Original X ~ 920) ---
+        // --- CLOUD 5 ---
         c5_off -= s5;
         if (920 + c5_off < -150)
-            c5_off = 130; // 920 + 130 = 1050
+            c5_off = 130;
     }
 
     glutPostRedisplay();
@@ -7061,21 +7051,20 @@ void updateFountainAnimM2(int value)
 {
     if (fountainsOnM2)
     {
-        // Cycle through stages: 0 -> 1 -> 2 -> 3 -> 0 ...
         fountainStageM2++;
         if (fountainStageM2 > 3)
         {
             fountainStageM2 = 0;
         }
         glutPostRedisplay();
-        // Update every 300ms (Adjust this to change speed)
+
         glutTimerFunc(300, updateFountainAnimM2, 0);
     }
 }
 
 void updateCarKLCC(int value)
 {
-    // 1. Move Car Forward
+    // Move Car Forward
     carKLCCX += carKLCCSpeed;
 
 
@@ -7103,7 +7092,6 @@ void setHeadlightKLCC(float x, float y, bool faceRight)
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT7);
 
-    // FIX 1: Reduced Intensity (Was 1.5, now 0.8)
     GLfloat lightColor[] = { 0.8f, 0.8f, 0.6f, 1.0f };
 
     float lightX = faceRight ? (x + 15.0f) : (x + 0.5f);
@@ -7119,40 +7107,35 @@ void setHeadlightKLCC(float x, float y, bool faceRight)
     glLightf(GL_LIGHT7, GL_SPOT_CUTOFF, 60.0f);
     glLightf(GL_LIGHT7, GL_SPOT_EXPONENT, 2.0f);
 
-    // FIX 2: Restore Gentle Fading
-    // This stops the light from being "infinite"
+
     glLightf(GL_LIGHT7, GL_CONSTANT_ATTENUATION, 1.0f);
-    glLightf(GL_LIGHT7, GL_LINEAR_ATTENUATION, 0.005f); // Fades correctly now
+    glLightf(GL_LIGHT7, GL_LINEAR_ATTENUATION, 0.005f);
     glLightf(GL_LIGHT7, GL_QUADRATIC_ATTENUATION, 0.0f);
 }
 
 void setBusHeadlight(float x, float y, bool faceRight)
 {
-    // 1. If it's Day, turn off the light
     if (isDayM2)
     {
         glDisable(GL_LIGHT5);
         return;
     }
 
-    // 2. Enable Light 5
+    // Enable Light 5
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT6);
 
-    // 3. Configure Properties (White/Yellow Beam)
+    //Configure Properties (White/Yellow Beam)
     GLfloat lightColor[] = { 1.0f, 1.0f, 0.9f, 1.0f };
 
-    // Position Calculations:
-    // If facing Right, light is at the nose (x + 130).
-    // If facing Left, light is at x.
+
     float lightX = faceRight ? (x + 130.0f) : x;
     float lightY = y + 25.0f; // Headlight height
 
-    // Position (Z=50 to shine on road)
+    // Position
     GLfloat lightPos[] = { lightX, lightY, 50.0f, 1.0f };
 
     // Direction Calculations:
-    // Point slightly down (-0.3) so it hits the road
     GLfloat spotDir[] = { faceRight ? 1.0f : -1.0f, -0.3f, 0.0f };
 
     // Apply
@@ -7163,9 +7146,9 @@ void setBusHeadlight(float x, float y, bool faceRight)
     // Spotlight Effect
     glLightfv(GL_LIGHT6, GL_SPOT_DIRECTION, spotDir);
     glLightf(GL_LIGHT6, GL_SPOT_CUTOFF, 60.0f);   // Cone Width
-    glLightf(GL_LIGHT6, GL_SPOT_EXPONENT, 2.0f); // Focused beam
+    glLightf(GL_LIGHT6, GL_SPOT_EXPONENT, 2.0f);
 
-    // Attenuation (Fade out so it doesn't light the whole world)
+    // Attenuation
     glLightf(GL_LIGHT6, GL_CONSTANT_ATTENUATION, 1.0f);
     glLightf(GL_LIGHT6, GL_LINEAR_ATTENUATION, 0.005f);
     glLightf(GL_LIGHT6, GL_QUADRATIC_ATTENUATION, 0.0f);
@@ -7173,7 +7156,6 @@ void setBusHeadlight(float x, float y, bool faceRight)
 
 void updateTrainKLCC(int value)
 {
-    // Only move if NOT paused
     if (!isTrainPausedM2)
     {
         trainKLCCX -= trainKLCCSpeed;
@@ -7185,31 +7167,27 @@ void updateTrainKLCC(int value)
     }
 
     glutPostRedisplay();
-    glutTimerFunc(16, updateTrainKLCC, 0); // Keep timer running so it can resume instantly
+    glutTimerFunc(16, updateTrainKLCC, 0);
 }
 
 void updateBusKLCC(int value)
 {
     if (scenarioMohaimin2)
     {
-        // FORCE DIRECTION: ALWAYS LEFT
         busFaceRightM2 = false;
 
-        // 1. Move Left
+        //  Move Left
         busXM2 -= busSpeedM2;
 
-        // 2. Teleport Loop
+        // Teleport Loop
         if (busXM2 < -250.0f)
         {
             busXM2 = 1100.0f;
         }
 
-        // 3. WHEEL SPIN FIX: Link to Speed
-        // Instead of hardcoded 15.0f, we use speed.
-        // If busSpeedM2 is 0, this becomes 0 (Wheels Stop).
+
         busWheelAngleM2 -= busSpeedM2 * 3.0f;
 
-        // Keep angle clean
         if (busWheelAngleM2 < 0.0f) busWheelAngleM2 += 360.0f;
     }
 
@@ -7217,7 +7195,6 @@ void updateBusKLCC(int value)
     glutTimerFunc(20, updateBusKLCC, 0);
 }
 
-// All old S_ functions removed - replaced with KLCC scene
 
 void Mohaimin2()
 {
@@ -7245,34 +7222,29 @@ void Mohaimin2()
     // THE SUN/MOON & DYNAMIC LIGHT SOURCE
     // ==========================================
 
-    // Fix: Ensure material colors work with lighting
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 
     if(isDayM2)
     {
         // DAY MODE: SUN
-        // 1. UPDATE LIGHT POSITION AND PROPERTIES (Dynamic)
-        // FIX: Changed Z from 200.0f to 500.0f so it shines ON the buildings
+
         GLfloat lightPos[] = { sunX, sunY, 500.0f, 1.0f };
         glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 
         // Set sun light color properties for day mode
-        // FIX: Lowered values (was 1.0) to reduce brightness
         GLfloat sunColor[] = { 0.7f, 0.65f, 0.5f, 1.0f }; // Softer sunlight
         glLightfv(GL_LIGHT0, GL_DIFFUSE, sunColor);
         glLightfv(GL_LIGHT0, GL_SPECULAR, sunColor);
 
-        // Lowered ambient slightly so shadows aren't too washed out
         GLfloat ambientColor[] = { 0.3f, 0.3f, 0.3f, 1.0f };
         glLightfv(GL_LIGHT0, GL_AMBIENT, ambientColor);
 
         // Enable GL_LIGHT0 for day mode
         glEnable(GL_LIGHT0);
 
-        // 2. DRAW THE VISUAL SUN (Unlit)
-        // We disable lighting temporarily so the sun itself isn't affected by shadows
-        // and appears as a glowing object.
+        // DRAW THE VISUAL SUN (Unlit)
+
         glDisable(GL_LIGHTING);
 
         // Sun Body
@@ -7292,39 +7264,34 @@ void Mohaimin2()
         }
         glEnd();
 
-        // 3. RE-ENABLE LIGHTING
+        // RE-ENABLE LIGHTING
         glEnable(GL_LIGHTING);
     }
     else
     {
         // NIGHT MODE: MOON
-        // 1. UPDATE LIGHT POSITION (Dynamic) - Use moon position for night
-        // FIX: Changed Z from 200.0f to 500.0f here too
+
         GLfloat lightPos[] = { moonX, moonY, 200.0f, 1.0f };
 
-        // Dimmer light for night
-        // FIX: Lowered from 0.3 to 0.1 to make it much darker
         GLfloat moonLightColor[] = { 0.1f, 0.1f, 0.2f, 1.0f };
         glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
         glLightfv(GL_LIGHT0, GL_DIFFUSE, moonLightColor);
         glLightfv(GL_LIGHT0, GL_SPECULAR, moonLightColor);
 
-        // FIX: Add this Ambient line to make shadows dark
         GLfloat moonAmbient[] = { 0.05f, 0.05f, 0.1f, 1.0f };
         glLightfv(GL_LIGHT0, GL_AMBIENT, moonAmbient);
 
-        // 2. DRAW THE VISUAL MOON (Unlit)
+        // DRAW THE VISUAL MOON (Unlit)
         glDisable(GL_LIGHTING);
 
-        // Moon Body - Full circular moon with subtle gray shading for depth
+        // Moon Body
         drawCircle(moonX, moonY, 40, 1.0f, 1.0f, 1.0f);
 
-        // Add subtle gray patches for moon surface texture (optional, makes it look more realistic)
         drawCircle(moonX - 8, moonY - 5, 12, 0.85f, 0.85f, 0.85f);
         drawCircle(moonX + 10, moonY + 8, 8, 0.9f, 0.9f, 0.9f);
         drawCircle(moonX - 5, moonY + 12, 6, 0.88f, 0.88f, 0.88f);
 
-        // 3. RE-ENABLE LIGHTING
+        // RE-ENABLE LIGHTING
         glEnable(GL_LIGHTING);
 
         // Restore sun light color for next day cycle
@@ -7332,12 +7299,13 @@ void Mohaimin2()
         glLightfv(GL_LIGHT0, GL_DIFFUSE, sunColor);
         glLightfv(GL_LIGHT0, GL_SPECULAR, sunColor);
 
-        // Draw stars for night mode
+        // stars for night mode
         glDisable(GL_LIGHTING);
         glPointSize(2.0f);
         glBegin(GL_POINTS);
         glColor3f(1.0f, 1.0f, 1.0f);
-        // Random star positions across the sky
+
+        // Random star positions
         glVertex2f(100, 650);
         glVertex2f(200, 620);
         glVertex2f(300, 660);
@@ -7360,9 +7328,9 @@ void Mohaimin2()
         glEnable(GL_LIGHTING);
     }
 
-    // ==========================================
-    // CLOUDS LAYER (ANIMATED SEPARATELY)
-    // ==========================================
+    // ===================
+    // CLOUDS LAYER
+    // ===================
 
     // Common Lighting & Color Setup
     glEnable(GL_LIGHTING);
@@ -7377,7 +7345,7 @@ void Mohaimin2()
 
     // --- CLOUD 1: Left Side ---
     glPushMatrix();
-    glTranslatef(c1_off, 0.0f, 0.0f); // Move independent variable 1
+    glTranslatef(c1_off, 0.0f, 0.0f);
         // Bottom
         drawCircle(118, 520, 16, cloudR, cloudG, cloudB);
         drawCircle(150, 516, 20, cloudR, cloudG, cloudB);
@@ -7390,7 +7358,7 @@ void Mohaimin2()
 
     // --- CLOUD 2: Center-Left ---
     glPushMatrix();
-    glTranslatef(c2_off, 0.0f, 0.0f); // Move independent variable 2
+    glTranslatef(c2_off, 0.0f, 0.0f); //
         // Bottom
         drawCircle(326, 580, 12, cloudR, cloudG, cloudB);
         drawCircle(350, 577, 15, cloudR, cloudG, cloudB);
@@ -7403,7 +7371,7 @@ void Mohaimin2()
 
     // --- CLOUD 3: Top Center ---
     glPushMatrix();
-    glTranslatef(c3_off, 0.0f, 0.0f); // Move independent variable 3
+    glTranslatef(c3_off, 0.0f, 0.0f);
         // Bottom
         drawCircle(522, 650, 14, cloudR, cloudG, cloudB);
         drawCircle(550, 646, 17, cloudR, cloudG, cloudB);
@@ -7416,7 +7384,7 @@ void Mohaimin2()
 
     // --- CLOUD 4: Right Side ---
     glPushMatrix();
-    glTranslatef(c4_off, 0.0f, 0.0f); // Move independent variable 4
+    glTranslatef(c4_off, 0.0f, 0.0f);
         // Bottom
         drawCircle(760, 580, 18, cloudR, cloudG, cloudB);
         drawCircle(800, 575, 25, cloudR, cloudG, cloudB);
@@ -7429,7 +7397,7 @@ void Mohaimin2()
 
     // --- CLOUD 5: Far Right ---
     glPushMatrix();
-    glTranslatef(c5_off, 0.0f, 0.0f); // Move independent variable 5
+    glTranslatef(c5_off, 0.0f, 0.0f);
         // Bottom
         drawCircle(876, 620, 22, cloudR, cloudG, cloudB);
         drawCircle(920, 614, 27, cloudR, cloudG, cloudB);
@@ -7527,7 +7495,6 @@ void Mohaimin2()
     // LAYER: GREEN GRASS FIELD
     // ==========================================
 
-    // Fill - Grass color changes slightly with day/night
     if(isDayM2) {
         glColor3f(0.4f, 0.7f, 0.3f); // Bright green for day
     } else {
@@ -7536,7 +7503,7 @@ void Mohaimin2()
     glBegin(GL_QUADS);
     glVertex2f(0, 120);
     glVertex2f(1000, 120);
-    glVertex2f(1000, 302); // 120 + 182
+    glVertex2f(1000, 302);
     glVertex2f(0, 302);
     glEnd();
 
@@ -7603,21 +7570,18 @@ void Mohaimin2()
 
     // --- Main Road Block ---
 
-    // 1. Set Normal facing UP (Crucial for light to hit it)
     glNormal3f(0.0f, 0.0f, 1.0f);
 
-    // 2. Color (Dark Grey)
     glColor3f(0.3f, 0.3f, 0.35f);
 
-    // 3. Draw Road in 20-pixel slices instead of 1 big block
-    // This allows the spotlight to light up specific parts of the road
+
     for(int i = 0; i < 1000; i += 20)
     {
         glBegin(GL_QUADS);
-        glVertex2f(i, 0);        // Bottom Left
-        glVertex2f(i + 20, 0);   // Bottom Right
-        glVertex2f(i + 20, 90);  // Top Right
-        glVertex2f(i, 90);       // Top Left
+        glVertex2f(i, 0);
+        glVertex2f(i + 20, 0);
+        glVertex2f(i + 20, 90);
+        glVertex2f(i, 90);
         glEnd();
     }
 
@@ -7673,7 +7637,6 @@ void Mohaimin2()
     glVertex2f(250, 120);
     glEnd();
 
-    // Grass patches - same color as grass field (changes with day/night)
     if(isDayM2) {
         glColor3f(0.4f, 0.7f, 0.3f); // Bright green for day (same as grass)
     } else {
@@ -7732,8 +7695,7 @@ void Mohaimin2()
     // ==========================================
     // 3 FOUNTAINS (Loop - Realistic Spray)
     // ==========================================
-    // Positions: 400, 500, 600
-    // Base Y: 160
+
 
     for (int i = 0; i < 3; i++)
     {
@@ -7760,7 +7722,6 @@ void Mohaimin2()
         glEnd();
 
         // --- STRAIGHT JETS (Core Water) ---
-        // Only draw if fountains are on
         if(fountainsOnM2)
         {
             glColor3f(0.8f, 0.95f, 1.0f); // Light Blue
@@ -7781,7 +7742,7 @@ void Mohaimin2()
             glVertex2f(x + 22, baseY + 65);
             glEnd();
 
-            // --- REALISTIC SPRAY ARCS (Based on Stage) ---
+            // ---  SPRAY ARCS ---
 
             // STAGE 3: Top High Spray (Curves down)
             if (fountainStageM2 >= 3)
@@ -7871,40 +7832,35 @@ void Mohaimin2()
         // WINDOWS (Controlled by GL_LIGHT2)
         // ==========================================
 
-        // Windows Fill - Light up at night when lamps are on
-        // Windows Fill - Light up at night when lamps are on
+
         if(!isDayM2 && lampsOnM2)
         {
-            // 1. VISUAL: Make the window polygons yellow (Bright)
+            // VISUAL: Make the window polygons yellow
             glColor3f(1.0f, 0.85f, 0.5f);
 
-            // 2. LIGHT SOURCE: Enable Light 2 but make it DIM
+            // LIGHT SOURCE: Enable Light 2
             glEnable(GL_LIGHT2);
 
-            // Position: Keep it central
+            // Position
             GLfloat windowPos[] = { 500.0f, 400.0f, 250.0f, 1.0f };
             glLightfv(GL_LIGHT2, GL_POSITION, windowPos);
 
-            // --- FIX: DRASTICALLY REDUCE INTENSITY ---
-            // Old was {1.0, 0.9, 0.6}.
-            // New is {0.2, 0.18, 0.1}. (Just a faint glow)
+
             GLfloat windowDiffuse[]  = { 0.2f, 0.18f, 0.1f, 1.0f };
-            GLfloat windowSpecular[] = { 0.0f, 0.0f, 0.0f, 1.0f }; // No shine
-            GLfloat windowAmbient[]  = { 0.0f, 0.0f, 0.0f, 1.0f }; // No global wash
+            GLfloat windowSpecular[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+            GLfloat windowAmbient[]  = { 0.0f, 0.0f, 0.0f, 1.0f };
 
             glLightfv(GL_LIGHT2, GL_DIFFUSE, windowDiffuse);
             glLightfv(GL_LIGHT2, GL_SPECULAR, windowSpecular);
             glLightfv(GL_LIGHT2, GL_AMBIENT, windowAmbient);
 
-            // --- FIX: INCREASE ATTENUATION ---
-            // Fade out quickly so it doesn't hit the ground hard
             glLightf(GL_LIGHT2, GL_CONSTANT_ATTENUATION, 1.0f);
             glLightf(GL_LIGHT2, GL_LINEAR_ATTENUATION, 0.01f);
             glLightf(GL_LIGHT2, GL_QUADRATIC_ATTENUATION, 0.001f);
         }
         else
         {
-            // Day mode or lamps off: Window Blue/Grey
+            // Day mode or lamps off
             glColor3f(0.3f, 0.6f, 0.9f);
             glDisable(GL_LIGHT2);
         }
@@ -8000,12 +7956,10 @@ void Mohaimin2()
 
         // --- WINDOWS ---
 
-        // Window Fill - Light up at night when lamps are on
         if(!isDayM2 && lampsOnM2)
         {
             // Night mode with lamps on: Warm yellow/orange glow
             glColor3f(1.0f, 0.85f, 0.5f); // Warm yellow/orange
-            // Note: GL_LIGHT3 is already set up in Building 1 windows section above
         }
         else
         {
@@ -8057,16 +8011,14 @@ void Mohaimin2()
         // ==========================================
 
         // Body
-        // Paint: (640,270) -> (680,270) -> (670,410) -> (640,410)
-        // GL Y: 270->430, 410->290
-        // Color: 11,107,158 -> (0.04f, 0.42f, 0.62f)
+
         glNormal3f(0.0f, 0.0f, 1.0f); // Normal for lighting
         glColor3f(0.04f, 0.42f, 0.62f);
         glBegin(GL_QUADS);
-        glVertex2f(640, 430); // Top Left
-        glVertex2f(680, 430); // Top Right
-        glVertex2f(670, 290); // Bottom Right
-        glVertex2f(640, 290); // Bottom Left
+        glVertex2f(640, 430);
+        glVertex2f(680, 430);
+        glVertex2f(670, 290);
+        glVertex2f(640, 290);
         glEnd();
 
         // Outline
@@ -8078,10 +8030,7 @@ void Mohaimin2()
         glVertex2f(640, 290);
         glEnd();
 
-        // Horizontal Lines (Windows)
-        // Start: Paint 278 -> GL 422
-        // Vertical Distance: 8px (Paint +8, GL -8)
-        // 15 Lines
+
         glColor3f(1.0f, 1.0f, 1.0f); // White
         glLineWidth(1.0f);
         glBegin(GL_LINES);
@@ -8089,10 +8038,6 @@ void Mohaimin2()
         {
             float y = 422.0f - (i * 8.0f);
 
-            // Paint X: 647 to 674
-            // Note: The building tapers on the right.
-            // If strict 674 is used at the bottom, it might spill slightly.
-            // I have kept it strictly 674 as requested.
             glVertex2f(647, y);
             glVertex2f(674, y);
         }
@@ -8151,7 +8096,6 @@ void Mohaimin2()
         // WINDOW SERIES 1 (Upper)
         // ==========================================
 
-        // Windows - Light up brighter at night when lamps are on
         if(!isDayM2 && lampsOnM2)
         {
             glColor3f(1.0f, 0.75f, 0.3f); // Brighter orange/yellow glow
@@ -8201,7 +8145,6 @@ void Mohaimin2()
         // WINDOW SERIES 2 (Lower)
         // ==========================================
 
-        // Windows - Light up brighter at night when lamps are on
         if(!isDayM2 && lampsOnM2)
         {
             glColor3f(1.0f, 0.75f, 0.3f); // Brighter orange/yellow glow
@@ -8344,7 +8287,6 @@ void Mohaimin2()
 
         // --- SKY CUTOUT 1 (Top Left) ---
 
-        // Sky cutout color changes with day/night
         if(isDayM2) {
             glColor3f(0.0f, 0.6f, 0.9f); // Day sky color
         } else {
@@ -8367,7 +8309,6 @@ void Mohaimin2()
 
         // --- 7. SKY CUTOUT 2 (Top Right) ---
 
-        // Sky cutout color changes with day/night
         if(isDayM2) {
             glColor3f(0.0f, 0.6f, 0.9f); // Day sky color
         } else {
@@ -8602,17 +8543,15 @@ void Mohaimin2()
         // ==========================================
 
         // --- MAIN BODY (Metallic Silver) ---
-        // Tapered "Rocket" Shape
-        // Base: 740-790 at Y=290
-        // Top:  755-775 at Y=500
+
 
         glNormal3f(0.0f, 0.0f, 1.0f); // Normal for lighting
-        glColor3f(0.75f, 0.75f, 0.75f); // Silver Grey (Stands out against Indigo)
+        glColor3f(0.75f, 0.75f, 0.75f); // Silver Grey
         glBegin(GL_QUADS);
-        glVertex2f(755, 500); // Top Left
-        glVertex2f(775, 500); // Top Right
-        glVertex2f(790, 290); // Bottom Right
-        glVertex2f(740, 290); // Bottom Left
+        glVertex2f(755, 500);
+        glVertex2f(775, 500);
+        glVertex2f(790, 290);
+        glVertex2f(740, 290);
         glEnd();
 
         // Outline
@@ -8624,8 +8563,8 @@ void Mohaimin2()
         glVertex2f(740, 290);
         glEnd();
 
-        // --- VERTICAL "SPINE" (Darker Grey) ---
-        // Gives the building structural depth
+        // --- VERTICAL SPINE (Darker Grey) ---
+
         glNormal3f(0.0f, 0.0f, 1.0f); // Normal for lighting
         glColor3f(0.50f, 0.55f, 0.60f); // Darker Steel
         glBegin(GL_QUADS);
@@ -8644,19 +8583,13 @@ void Mohaimin2()
         glVertex2f(760, 290);
         glEnd();
 
-        // --- HORIZONTAL "RINGS" (Gold) ---
-        // This adds that "KL" decorative feel (like Petronas or Exchange 106)
-        // We draw 5 rings going up the tower
+        // --- HORIZONTAL RINGS ---
 
-        glColor3f(0.85f, 0.75f, 0.40f); // Muted Gold
+        glColor3f(0.85f, 0.75f, 0.40f);
         for(int i = 0; i < 5; i++)
         {
-            float y = 330.0f + (i * 40.0f); // 330, 370, 410, 450, 490
+            float y = 330.0f + (i * 40.0f);
 
-            // Calculate width at this height (simple linear interpolation)
-            // At 290 width is 50 (740 to 790)
-            // At 500 width is 20 (755 to 775)
-            // Slope = -30px / 210px height
             float taperFactor = (y - 290) / 210.0f;
             float currentLeft = 740 + (15 * taperFactor);
             float currentRight = 790 - (15 * taperFactor);
@@ -8668,7 +8601,6 @@ void Mohaimin2()
             glVertex2f(currentLeft - 2, y - 4);
             glEnd();
 
-            // Ring Outline
             glColor3f(0.0f, 0.0f, 0.0f);
             glBegin(GL_LINE_LOOP);
             glVertex2f(currentLeft - 2, y + 4);
@@ -8678,8 +8610,7 @@ void Mohaimin2()
             glEnd();
         }
 
-        // --- SPIRE (Needle) ---
-        // Very thin, very tall
+        // --- SPIRE) ---
         glColor3f(0.40f, 0.45f, 0.50f); // Dark Steel
         glBegin(GL_TRIANGLES);
         glVertex2f(762, 500);
@@ -8733,8 +8664,8 @@ void Mohaimin2()
         glNormal3f(0.0f, 0.0f, 1.0f); // Normal for lighting
         glColor3f(0.44f, 0.31f, 0.17f);
         glBegin(GL_QUADS);
-        glVertex2f(789, 548); //
-        glVertex2f(842, 548); //
+        glVertex2f(789, 548);
+        glVertex2f(842, 548);
         glVertex2f(834, 522);
         glVertex2f(796, 522);
         glEnd();
@@ -8742,7 +8673,7 @@ void Mohaimin2()
         // Outline
         glColor3f(0.0f, 0.0f, 0.0f);
         glBegin(GL_LINE_LOOP);
-        glVertex2f(789, 548); //
+        glVertex2f(789, 548);
         glVertex2f(842, 548);
         glVertex2f(834, 522);
         glVertex2f(796, 522);
@@ -9261,7 +9192,6 @@ void Mohaimin2()
 
                 float dX = 855.0f + (i * 18.0f);
 
-                // If we are in Set 2, add the set offset
                 if (s == 1)
                 {
                     dX = 855.0f + 74.0f + (i * 18.0f);
@@ -9301,9 +9231,9 @@ void Mohaimin2()
             glColor3f(0.40f, 0.56f, 0.58f);
             glBegin(GL_QUADS);
             glVertex2f(460 + offX, 510);
-            glVertex2f(473 + offX, 512); // Shared Edge Top
+            glVertex2f(473 + offX, 512);
             glVertex2f(473 + offX, 275);
-            glVertex2f(460 + offX, 275); // Shared Edge Bot
+            glVertex2f(460 + offX, 275);
             glEnd();
 
             glColor3f(0.0f, 0.0f, 0.0f);
@@ -9314,14 +9244,13 @@ void Mohaimin2()
             glVertex2f(460 + offX, 275);
             glEnd();
 
-            // Q2 (Grey) - Starts exactly at Q1's end
             glNormal3f(0.0f, 0.0f, 1.0f); // Normal for lighting
             glColor3f(0.69f, 0.76f, 0.79f);
             glBegin(GL_QUADS);
             glVertex2f(473 + offX, 512);
-            glVertex2f(489 + offX, 514); // Shared Edge Top
+            glVertex2f(489 + offX, 514);
             glVertex2f(489 + offX, 275);
-            glVertex2f(473 + offX, 275); // Shared Edge Bot
+            glVertex2f(473 + offX, 275);
             glEnd();
 
             glColor3f(0.0f, 0.0f, 0.0f);
@@ -9332,14 +9261,14 @@ void Mohaimin2()
             glVertex2f(473 + offX, 275);
             glEnd();
 
-            // Q3 (Grey) - Starts exactly at Q2's end
+            // Q3 (Grey)
             glNormal3f(0.0f, 0.0f, 1.0f); // Normal for lighting
             glColor3f(0.69f, 0.76f, 0.79f);
             glBegin(GL_QUADS);
             glVertex2f(489 + offX, 514);
-            glVertex2f(505 + offX, 512); // Shared Edge Top
+            glVertex2f(505 + offX, 512);
             glVertex2f(505 + offX, 275);
-            glVertex2f(489 + offX, 275); // Shared Edge Bot
+            glVertex2f(489 + offX, 275);
             glEnd();
 
             glColor3f(0.0f, 0.0f, 0.0f);
@@ -9350,7 +9279,7 @@ void Mohaimin2()
             glVertex2f(489 + offX, 275);
             glEnd();
 
-            // Q4 (Teal) - Starts exactly at Q3's end
+            // Q4 (Teal)
             glNormal3f(0.0f, 0.0f, 1.0f); // Normal for lighting
             glColor3f(0.40f, 0.56f, 0.58f);
             glBegin(GL_QUADS);
@@ -9440,7 +9369,6 @@ void Mohaimin2()
             glVertex2f(502 + offX, 512);
             glEnd();
 
-            // --- LAYER 3 (Fixed Discrepancy: Y=558 vs 559) ---
             // Q1 (Grey)
             glNormal3f(0.0f, 0.0f, 1.0f); // Normal for lighting
             glColor3f(0.69f, 0.76f, 0.79f);
@@ -9459,7 +9387,7 @@ void Mohaimin2()
             glVertex2f(468 + offX, 556);
             glEnd();
 
-            // Q2 (Teal) - Forced Start to 478,558 (was 559)
+            // Q2 (Teal)
             glNormal3f(0.0f, 0.0f, 1.0f); // Normal for lighting
             glColor3f(0.40f, 0.56f, 0.58f);
             glBegin(GL_QUADS);
@@ -9772,7 +9700,7 @@ void Mohaimin2()
             glVertex2f(473 + offX, 275);
             glEnd();
 
-            // 2. Draw 20 Horizontal Lines on the Lift
+            // 20 Horizontal Lines
 
             glColor3f(0.0f, 0.0f, 0.0f); // Dark Teal Lines
             for(int k = 0; k < 18; k++)
@@ -9813,7 +9741,7 @@ void Mohaimin2()
         glVertex2f(514, 451);
         glEnd();
 
-        // Part 2: Glass/Gap (No outline needed, or simple box)
+        // Part 2: Glass/Gap
         glColor3f(0.0f, 0.6f, 0.9f);
         glBegin(GL_QUADS);
         glVertex2f(514, 451);
@@ -9864,9 +9792,9 @@ void Mohaimin2()
         glVertex2f(541, 444);
         glEnd();
 
-        // ==========================================
-        // SKYBRIDGE SUPPORTS (Fixed Overlap)
-        // ==========================================
+        // ===========================
+        // SKYBRIDGE SUPPORTS
+        // ===========================
 
         // --- SUPPORT 1 (Left Leg) ---
 
@@ -9889,15 +9817,15 @@ void Mohaimin2()
         glVertex2f(520, 406);
         glEnd();
 
-        // --- SUPPORT 2 (Right Leg - Extended Overlap) ---
+        // --- SUPPORT 2 (Right Leg) ---
 
         glColor3f(0.69f, 0.76f, 0.79f); // Grey
         glBegin(GL_POLYGON);
-        glVertex2f(543, 440); // Top Inner
-        glVertex2f(546, 440); // Top Outer
-        glVertex2f(568.5f, 406); // Bottom Upper (Extended)
-        glVertex2f(568.5f, 401); // Bottom Tip (Extended)
-        glVertex2f(543, 437); // Inner Knee
+        glVertex2f(543, 440);
+        glVertex2f(546, 440);
+        glVertex2f(568.5f, 406);
+        glVertex2f(568.5f, 401);
+        glVertex2f(543, 437);
         glEnd();
 
         // Outline
@@ -9905,185 +9833,109 @@ void Mohaimin2()
         glBegin(GL_LINE_LOOP);
         glVertex2f(543, 440);
         glVertex2f(546, 440);
-        glVertex2f(568.5f, 406); // Extended
-        glVertex2f(568.5f, 401); // Extended
+        glVertex2f(568.5f, 406);
+        glVertex2f(568.5f, 401);
         glVertex2f(543, 437);
         glEnd();
 
         // ==========================================
-
         // SURIA KLCC (Base & Entrance) - Fixed Gap
-
         // ==========================================
-
 
 
         // --- 1. LEFT WING FRONT ---
 
-
-
         // Shape 1 (Far Left)
 
-        // Paint: 395, 403, 450, 436 -> GL: 305, 297, 250, 264
-
         glColor3f(0.976f, 0.839f, 0.510f);
-
         glBegin(GL_POLYGON);
-
         glVertex2f(341, 305);
-
         glVertex2f(405, 297);
-
         glVertex2f(405, 250);
-
         glVertex2f(341, 264);
-
         glEnd();
 
         // Outline
 
         glColor3f(0.0f, 0.0f, 0.0f);
-
         glBegin(GL_LINE_LOOP);
-
         glVertex2f(341, 305);
-
         glVertex2f(405, 297);
-
         glVertex2f(405, 250);
-
         glVertex2f(341, 264);
-
         glEnd();
-
 
 
         // Shape 2 (Inner Left)
 
-        // Paint: 403, 397, 441, 450 -> GL: 297, 303, 259, 250
 
         glColor3f(0.976f, 0.839f, 0.510f);
-
         glBegin(GL_POLYGON);
-
         glVertex2f(405, 297);
-
         glVertex2f(510, 303);
-
         glVertex2f(510, 259);
-
         glVertex2f(405, 250);
-
         glEnd();
 
         // Outline
 
         glColor3f(0.0f, 0.0f, 0.0f);
-
         glBegin(GL_LINE_LOOP);
-
         glVertex2f(405, 297);
-
         glVertex2f(510, 303);
-
         glVertex2f(510, 259);
-
         glVertex2f(405, 250);
-
         glEnd();
-
 
 
         // --- 2. CENTER ENTRANCE STRUCTURE ---
 
 
-
-        // Main Central Pillar (Fixed Twisted Shape)
-
-        // Covers X: 510 to 576
-
-        // Covers Y: Paint 341 (Top) to 441 (Bottom) -> GL 359 to 259
-
         glColor3f(0.976f, 0.839f, 0.510f); // Main Building Color
-
         glBegin(GL_QUADS);
-
         glVertex2f(510, 318); // Top Left
-
         glVertex2f(576, 318); // Top Right
-
         glVertex2f(576, 259); // Bottom Right
-
         glVertex2f(510, 259); // Bottom Left
-
         glEnd();
 
         // Outline
 
         glColor3f(0.0f, 0.0f, 0.0f);
-
         glBegin(GL_LINE_LOOP);
-
         glVertex2f(510, 318);
-
         glVertex2f(576, 318);
-
         glVertex2f(576, 259);
-
         glVertex2f(510, 259);
-
         glEnd();
-
-
 
         // Center Line
 
-        // Paint: 388 -> GL: 312
-
         glColor3f(0.0f, 0.0f, 0.0f);
-
         glBegin(GL_LINES);
-
         glVertex2f(510, 312);
-
         glVertex2f(576, 312);
-
         glEnd();
-
-
 
         // Center Cyan Block
 
-        // Paint: 395 to 418 -> GL: 305 to 282
 
         glColor3f(0.467f, 0.765f, 0.859f); // Cyan
-
         glBegin(GL_QUADS);
-
         glVertex2f(510, 305);
-
         glVertex2f(576, 305);
-
         glVertex2f(576, 282);
-
         glVertex2f(510, 282);
-
         glEnd();
 
         // Outline
 
         glColor3f(0.0f, 0.0f, 0.0f);
-
         glBegin(GL_LINE_LOOP);
-
         glVertex2f(510, 305);
-
         glVertex2f(576, 305);
-
         glVertex2f(576, 282);
-
         glVertex2f(510, 282);
-
         glEnd();
 
 
@@ -10091,10 +9943,8 @@ void Mohaimin2()
         // Vertical Lines in Cyan Block
 
         glBegin(GL_LINES);
-
         glVertex2f(532, 305);
         glVertex2f(532, 282);
-
         glVertex2f(554, 305);
         glVertex2f(555, 282);
 
@@ -10104,74 +9954,46 @@ void Mohaimin2()
 
         // Dark Grey Bottom Strip
 
-        // Paint: 424 to 440 -> GL: 276 to 260
-
         glColor3f(0.420f, 0.459f, 0.427f); // Dark Grey
-
         glBegin(GL_QUADS);
-
         glVertex2f(510, 276);
-
         glVertex2f(576, 276);
-
         glVertex2f(576, 260);
-
         glVertex2f(510, 260);
-
         glEnd();
 
         // Outline
 
         glColor3f(0.0f, 0.0f, 0.0f);
-
         glBegin(GL_LINE_LOOP);
-
         glVertex2f(510, 276);
-
         glVertex2f(576, 276);
-
         glVertex2f(576, 260);
-
         glVertex2f(510, 260);
-
         glEnd();
 
 
 
         // Pillars inside Dark Grey Strip
 
-
-
         // Left Pillar
 
         glColor3f(0.976f, 0.839f, 0.510f); // Main Color
-
         glBegin(GL_QUADS);
-
         glVertex2f(530, 276);
-
         glVertex2f(534, 276);
-
         glVertex2f(534, 260);
-
         glVertex2f(530, 260);
-
         glEnd();
 
         // Outline
 
         glColor3f(0.0f, 0.0f, 0.0f);
-
         glBegin(GL_LINE_LOOP);
-
         glVertex2f(530, 276);
-
         glVertex2f(534, 276);
-
         glVertex2f(534, 260);
-
         glVertex2f(530, 260);
-
         glEnd();
 
 
@@ -10179,69 +10001,42 @@ void Mohaimin2()
         // Right Pillar
 
         glColor3f(0.976f, 0.839f, 0.510f); // Main Color
-
         glBegin(GL_QUADS);
-
         glVertex2f(552, 276);
-
         glVertex2f(556, 276);
-
         glVertex2f(556, 260);
-
         glVertex2f(552, 260);
-
         glEnd();
 
         // Outline
 
         glColor3f(0.0f, 0.0f, 0.0f);
-
         glBegin(GL_LINE_LOOP);
-
         glVertex2f(552, 276);
-
         glVertex2f(556, 276);
-
         glVertex2f(556, 260);
-
         glVertex2f(552, 260);
-
         glEnd();
 
-
-
-        // --- 3. RIGHT WING FRONT  ---
-
+        // --- RIGHT WING FRONT  ---
 
 
         glColor3f(0.976f, 0.839f, 0.510f);// Cyan
-
         glBegin(GL_POLYGON);
-
         glVertex2f(577, 302);
-
         glVertex2f(680, 295);
-
         glVertex2f(680, 247);
-
         glVertex2f(577, 259);
-
         glEnd();
 
         // Outline
 
         glColor3f(0.0f, 0.0f, 0.0f);
-
         glBegin(GL_LINE_LOOP);
-
         glVertex2f(577, 302);
-
         glVertex2f(680, 295);
-
         glVertex2f(680, 247);
-
         glVertex2f(577, 259);
-
         glEnd();
 
 
@@ -10251,69 +10046,43 @@ void Mohaimin2()
 
 
         glColor3f(0.976f, 0.839f, 0.510f); // Cyan
-
         glBegin(GL_POLYGON);
-
         glVertex2f(680, 295);
-
         glVertex2f(744, 304);
-
         glVertex2f(744, 263);
-
         glVertex2f(680, 247);
-
         glEnd();
 
         // Outline
 
         glColor3f(0.0f, 0.0f, 0.0f);
-
         glBegin(GL_LINE_LOOP);
-
         glVertex2f(680, 295);
-
         glVertex2f(744, 304);
-
         glVertex2f(744, 263);
-
         glVertex2f(680, 247);
-
         glEnd();
 
 
 
         // --- 4. ROOF CONNECTORS ---
 
-
-
         // Connector 1
 
         glColor3f(0.976f, 0.839f, 0.510f); // Main Color
-
         glBegin(GL_POLYGON);
-
-        glVertex2f(341, 320); // Changed from 351
-
+        glVertex2f(341, 320);
         glVertex2f(413, 313);
-
-        glVertex2f(413, 296); // Lowered slightly to overlap
-
-        glVertex2f(341, 305); // Changed from 351
-
+        glVertex2f(413, 296);
+        glVertex2f(341, 305);
         glEnd();
 
         glColor3f(0.0f, 0.0f, 0.0f); // Outline
-
         glBegin(GL_LINE_LOOP);
-
         glVertex2f(341, 320); // Changed from 351
-
         glVertex2f(413, 313);
-
         glVertex2f(413, 296);
-
         glVertex2f(341, 305); // Changed from 351
-
         glEnd();
 
 
@@ -10321,13 +10090,11 @@ void Mohaimin2()
         // Connector 2
 
         glColor3f(0.976f, 0.839f, 0.510f); // Main Color
-
         glBegin(GL_POLYGON);
         glVertex2f(413, 313);
         glVertex2f(510, 318);
         glVertex2f(510, 303);
         glVertex2f(413, 298);
-
         glEnd();
 
         glColor3f(0.0f, 0.0f, 0.0f); // Outline
@@ -10336,7 +10103,6 @@ void Mohaimin2()
         glVertex2f(510, 318);
         glVertex2f(510, 303);
         glVertex2f(413, 298);
-
         glEnd();
 
 
@@ -10348,7 +10114,6 @@ void Mohaimin2()
         glVertex2f(673, 311);
         glVertex2f(673, 295);
         glVertex2f(576, 303);
-
         glEnd();
 
         glColor3f(0.0f, 0.0f, 0.0f); // Outline
@@ -10358,8 +10123,6 @@ void Mohaimin2()
         glVertex2f(673, 295);
         glVertex2f(576, 303);
         glEnd();
-
-
 
         // Connector 4
 
@@ -10913,9 +10676,7 @@ void Mohaimin2()
         // ==========================================
 
         // --- 1. MAIN TRACK (Horizontal Strip) ---
-        // Paint Y: 364 to 375 -> GL Y: 336 to 325
-
-        glColor3f(0.67f, 0.675f, 0.65f); // 171,172,166
+        glColor3f(0.67f, 0.675f, 0.65f);
         glBegin(GL_QUADS);
         glVertex2f(0, 336);
         glVertex2f(1000, 336);
@@ -10933,16 +10694,14 @@ void Mohaimin2()
         glEnd();
 
         // --- 2. PILLARS & SUPPORTS (Repeated 4 times) ---
-        // Horizontal Distance: 210px
 
         for(int i = 0; i <= 4; i++)
         {
             float xShift = i * 210.0f;
 
             // --- SUPPORT BASE (Trapezoid) ---
-            // Paint Y: 375, 387 -> GL Y: 325, 313
 
-            glColor3f(0.67f, 0.675f, 0.65f); // 171,172,166
+            glColor3f(0.67f, 0.675f, 0.65f);
             glBegin(GL_POLYGON);
             glVertex2f(65 + xShift, 325);
             glVertex2f(95 + xShift, 325);
@@ -10960,9 +10719,8 @@ void Mohaimin2()
             glEnd();
 
             // --- VERTICAL PILLAR ---
-            // Paint Y: 387, 453 -> GL Y: 313, 247
 
-            glColor3f(0.67f, 0.675f, 0.65f); // 171,172,166
+            glColor3f(0.67f, 0.675f, 0.65f);
             glBegin(GL_QUADS);
             glVertex2f(74 + xShift, 313);
             glVertex2f(86 + xShift, 313);
@@ -10980,9 +10738,9 @@ void Mohaimin2()
             glEnd();
         }
 
-        // ==========================================
-        // 3 TREES ON THE LEFT SIDE (Middle Tree Light Green)
-        // ==========================================
+        // ============================
+        // 3 TREES ON THE LEFT SIDE
+        // ============================
 
         for(int i = 0; i < 3; i++)
         {
@@ -11023,7 +10781,6 @@ void Mohaimin2()
             // CHECK IF MIDDLE TREE (i == 1)
             if (i == 1)
             {
-                // New Color: 98, 165, 62 -> 0.38, 0.65, 0.24
                 drawCircle(37 + treeShift, 209, 28, 0.38f, 0.65f, 0.24f);
             }
             else
@@ -11037,18 +10794,15 @@ void Mohaimin2()
         // 3 TREES ON THE RIGHT SIDE
         // ==========================================
 
-        // IMPORTANT: Normal must be set before drawing!
         glNormal3f(0.0f, 0.0f, 1.0f);
 
         for(int i = 0; i < 3; i++)
         {
             float xShift = i * 86.0f;
 
-            // --- TRUNK (Tessellated for Lighting) ---
+            // --- TRUNK ---
             glColor3f(0.56f, 0.33f, 0.15f);
 
-            // Instead of 1 big polygon, we draw 5 slices
-            // This allows the spotlight to light up the middle of the trunk
             float trunkL = 806 + xShift;
             float trunkR = 818 + xShift;
             float trunkY_Bot = 135;
@@ -11068,7 +10822,6 @@ void Mohaimin2()
             }
             glEnd();
 
-            // Trunk Outline (Keep as line loop, doesn't need tessellation)
             glColor3f(0.0f, 0.0f, 0.0f);
             glBegin(GL_LINE_LOOP);
             glVertex2f(trunkL, trunkY_Top);
@@ -11078,14 +10831,13 @@ void Mohaimin2()
             glEnd();
 
             // --- LOWER FOLIAGE ---
-            // Ensure Material Color is set before calling drawCircle
             glColor3f(0.07f, 0.33f, 0.17f);
             drawCircle(812 + xShift, 204, 33, 0.07f, 0.33f, 0.17f);
 
             // Lower Outline
             glColor3f(0.0f, 0.0f, 0.0f);
             glBegin(GL_LINE_LOOP);
-            for(int j=0; j<=360; j+=10)   // Optimization: j+=10 is enough for outline
+            for(int j=0; j<=360; j+=10)
             {
                 float rad = j * 3.1416 / 180.0;
                 glVertex2f((812 + xShift) + 33 * cos(rad), 204 + 33 * sin(rad));
@@ -11117,23 +10869,23 @@ void Mohaimin2()
         // --- 1. ENGINE / FRONT COACH (Coach 1) ---
 
         // Main Body
-        // Color: 242,238,227 -> 0.95, 0.93, 0.89
         glColor3f(0.95f, 0.93f, 0.89f);
         glBegin(GL_POLYGON);
-        glVertex2f(194, 362); // 338 -> 362
+        glVertex2f(194, 362);
         glVertex2f(241, 362);
         glVertex2f(241, 359);
         glVertex2f(241, 340);
-        glVertex2f(241, 331); // 369 -> 331
+        glVertex2f(241, 331);
         glVertex2f(189, 331);
         glVertex2f(181, 338);
         glVertex2f(181, 340);
         glVertex2f(181, 343);
         glVertex2f(183, 346);
-        glVertex2f(189, 357); // 343 -> 357
+        glVertex2f(189, 357);
         glVertex2f(191, 359);
         glVertex2f(194, 362);
         glEnd();
+
         // Outline
         glColor3f(0.0f, 0.0f, 0.0f);
         glBegin(GL_LINE_LOOP);
@@ -11152,7 +10904,7 @@ void Mohaimin2()
         glVertex2f(194, 362);
         glEnd();
 
-        // Inner Designs (Red: 222, 41, 34 -> 0.87, 0.16, 0.13)
+        // Inner Designs
         glColor3f(0.87f, 0.16f, 0.13f);
         // Top Stripe
         glBegin(GL_POLYGON);
@@ -11170,15 +10922,13 @@ void Mohaimin2()
         glVertex2f(181, 340);
         glEnd();
 
-        // Windows (Blue: 128, 188, 212 -> 0.50, 0.74, 0.83)
-        // Metro windows light up at night (automatically, not controlled by L key)
+        // Windows
+
         if(!isDayM2) {
-            // Night mode: Warm yellow/orange glow for metro windows
             glColor3f(1.0f, 0.9f, 0.6f); // Warm yellow/orange
 
-            // Set up GL_LIGHT4 for metro train windows (positioned at train center)
             glEnable(GL_LIGHT4);
-            GLfloat metroPos[] = { 500.0f, 345.0f, 180.0f, 1.0f }; // Center of metro train, Z=180
+            GLfloat metroPos[] = { 500.0f, 345.0f, 180.0f, 1.0f };
             glLightfv(GL_LIGHT4, GL_POSITION, metroPos);
 
             // Warm yellow/orange light for metro
@@ -11201,9 +10951,9 @@ void Mohaimin2()
 
         // Window 1 (Driver) - 4 points provided
         glBegin(GL_POLYGON);
-        glVertex2f(189, 357); // 343 -> 357
+        glVertex2f(189, 357);
         glVertex2f(195, 357);
-        glVertex2f(195, 346); // 354 -> 346
+        glVertex2f(195, 346);
         glVertex2f(183, 346);
         glEnd();
         glColor3f(0.0f, 0.0f, 0.0f); // Outline
@@ -11285,7 +11035,6 @@ void Mohaimin2()
         glEnd(); // Center line
 
         // --- 2. COACH CONNECTOR 1 ---
-        // Color: 77,79,68 -> 0.30, 0.31, 0.27
         glColor3f(0.30f, 0.31f, 0.27f);
         glBegin(GL_POLYGON);
         glVertex2f(241, 359);
@@ -11420,7 +11169,6 @@ void Mohaimin2()
         glEnd();
 
         // --- 5. COACH 3 (Replica of Coach 2) ---
-        // Offset calculation: Coach 3 starts at 302. Coach 2 started at 248. Offset = 54.
         float c3 = 54.0f;
 
         // Body
@@ -11535,22 +11283,20 @@ void Mohaimin2()
         glEnd();
 
         // --- 7. ENGINE / REAR COACH (Mirrored Coach 1) ---
-        // Start X: 356.
-        // Mirror Logic: X_new = 356 + (241 - X_old)
 
         // Body
         glColor3f(0.95f, 0.93f, 0.89f);
         glBegin(GL_POLYGON);
-        glVertex2f(403, 362); // 356+(241-194)
-        glVertex2f(356, 362); // 356+(241-241)
+        glVertex2f(403, 362);
+        glVertex2f(356, 362);
         glVertex2f(356, 359);
         glVertex2f(356, 340);
         glVertex2f(356, 331);
-        glVertex2f(408, 331); // 356+(241-189)
-        glVertex2f(416, 338); // 356+(241-181)
+        glVertex2f(408, 331);
+        glVertex2f(416, 338);
         glVertex2f(416, 340);
         glVertex2f(416, 343);
-        glVertex2f(414, 346); // 356+(241-183)
+        glVertex2f(414, 346);
         glVertex2f(408, 357);
         glVertex2f(406, 359);
         glVertex2f(403, 362);
@@ -11684,18 +11430,9 @@ void Mohaimin2()
         drawCybertruckKLCC(carKLCCX, 50.0f, 10.0f, true);
 
 
-        // Inside Mohaimin2() or display()...
 
-        // 1. SETUP LIGHTS (Car & Bus)
-        setBusHeadlight(busXM2, 5.0f, false); // <--- Add this!
-
-
-
-        // 3. DRAW VEHICLES
-        // 1st arg: X (Variable)
-        // 2nd arg: Y (Fixed Height, e.g., 120)
-        // 3rd arg: Scale (e.g., 1.0)
-        // 4th arg: Direction
+        // SETUP LIGHTS
+        setBusHeadlight(busXM2, 5.0f, false);
         drawBusKLCC(busXM2, 5.0f, 1.0f, false);
 
         // ==========================================
@@ -11704,19 +11441,18 @@ void Mohaimin2()
 
         if(!isDayM2 && lampsOnM2)
     {
-        // --- CLEANUP: Kill Global Ambient & The Window Light ---
+        // --- CLEANUP: Kill Global Ambient ---
         GLfloat globalDark[] = { 0.05f, 0.05f, 0.05f, 1.0f };
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalDark);
 
-        glDisable(GL_LIGHT2); // Reset Light 2 settings before using it for lamp
+        glDisable(GL_LIGHT2);
 
         // --- SPOTLIGHT SETTINGS ---
-        GLfloat spotDir[]   = { 0.0f, -1.0f, 0.0f }; // Down
-        GLfloat spotCutoff  = 45.0f;                 // 45 degree cone
-        GLfloat spotExp     = 2.0f;                  // Soft edges
+        GLfloat spotDir[]   = { 0.0f, -1.0f, 0.0f };
+        GLfloat spotCutoff  = 45.0f;
+        GLfloat spotExp     = 2.0f;
 
         // --- COLOR ---
-        // Warm Orange/Yellow at 0.8 intensity (80%)
         GLfloat lampColor[] = { 0.8f, 0.6f, 0.2f, 1.0f };
         GLfloat noAmbient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
@@ -11725,7 +11461,7 @@ void Mohaimin2()
         GLfloat kL = 0.005f;
         GLfloat kQ = 0.0f;
 
-        // --- LIGHT 1 (First Post: x = 90) ---
+        // --- LIGHT 1  ---
         glEnable(GL_LIGHT1);
         GLfloat pos1[] = { 90.0f, 220.0f, 50.0f, 1.0f };
         glLightfv(GL_LIGHT1, GL_POSITION, pos1);
@@ -11739,8 +11475,7 @@ void Mohaimin2()
         glLightf(GL_LIGHT1, GL_LINEAR_ATTENUATION, kL);
         glLightf(GL_LIGHT1, GL_QUADRATIC_ATTENUATION, kQ);
 
-        // --- LIGHT 2 (Middle Post: x = 430) ---
-        // We reuse Light 2 since we disabled the window light
+        // --- LIGHT 2  ---
         glEnable(GL_LIGHT2);
         GLfloat pos2[] = { 430.0f, 220.0f, 50.0f, 1.0f };
         glLightfv(GL_LIGHT2, GL_POSITION, pos2);
@@ -11754,7 +11489,7 @@ void Mohaimin2()
         glLightf(GL_LIGHT2, GL_LINEAR_ATTENUATION, kL);
         glLightf(GL_LIGHT2, GL_QUADRATIC_ATTENUATION, kQ);
 
-        // --- LIGHT 3 (Last Post: x = 940) ---
+        // --- LIGHT 3  ---
         glEnable(GL_LIGHT5);
         GLfloat pos3[] = { 940.0f, 220.0f, 50.0f, 1.0f };
         glLightfv(GL_LIGHT5, GL_POSITION, pos3);
@@ -11782,7 +11517,7 @@ void Mohaimin2()
     }
 
     // ==========================================
-    // 2. DRAW ALL POSTS (Visuals Only)
+    // 2. DRAW ALL POSTS
     // ==========================================
     for (int i = 90; i < 1000; i += 170)
     {
@@ -11947,8 +11682,8 @@ void selectSpecialKeys(int key, int x, int y)
         if (key == GLUT_KEY_DOWN)
         {
             trainKLCCSpeed -= 0.5f; // Train slows down
-            // Safety: Don't let the train stop completely or go backwards
-            if (trainKLCCSpeed < 0.1f) trainKLCCSpeed = 0.1f;
+
+            if (trainKLCCSpeed < 0.1f) trainKLCCSpeed = 0.0f;
         }
 
         if (key == GLUT_KEY_PAGE_UP)
@@ -11983,7 +11718,7 @@ void selectSpecialKeys(int key, int x, int y)
         // ---------------------------------------------------------
         if (isDayM2)
         {
-            // === DAY MODE: Control Sun Only ===
+            // === DAY MODE:  ===
             if (key == GLUT_KEY_RIGHT)
             {
                 sunSpeedM2 += 0.5f;
@@ -11996,7 +11731,7 @@ void selectSpecialKeys(int key, int x, int y)
         }
         else
         {
-            // === NIGHT MODE: Control Moon Only ===
+            // === NIGHT MODE: ===
             if (key == GLUT_KEY_RIGHT)
             {
                 moonSpeedM2 += 0.5f;
@@ -12087,55 +11822,52 @@ int main(int argc, char** argv)
     cout<<"Press 'f' or 'F'           : Toggle Fountains"<<endl;
     cout<<"Press key_up / key_down    : Metro Train Speed"<<endl;
     cout<<"Press key_left / key_right : Sun/Moon Speed"<<endl;
-    cout<<"Mouse Left Click           : Pause/Resume Metro Train"<<endl<<endl;
-    cout<<"Page Up / Page Down        : CyberTruck Speed Control"<<endl<<endl;
-    cout<<"Home / End                 : Bus Speed Control"<<endl<<endl;
+    cout<<"Mouse Left Click           : Pause/Resume Metro Train"<<endl;
+    cout<<"Page Up / Page Down        : CyberTruck Speed Control"<<endl;
+    cout<<"Home / End                 : Bus Speed Control"<<endl;
 
-    // --- 2. Window Initialization (Merged) ---
+    // --- Window Initialization ---
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_MULTISAMPLE);
     glutInitWindowSize(1000, 700);
     glutInitWindowPosition(200, 50);
-    glutCreateWindow("From village road to city lights");
+    glutCreateWindow("Going Through Places - A Journey By Car");
 
-    // --- 3. Graphics & Smoothing Setup (From Code 2) ---
+    // --- Graphics & Smoothing Setup ---
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_LINE_SMOOTH);
     glEnable(GL_POLYGON_SMOOTH);
     glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 
-    // Shade Model: GL_SMOOTH for smooth lighting gradients (better for lighting effects)
+    // Shade Model:
     glShadeModel(GL_SMOOTH);
 
-    // --- 4. Lighting Engine Setup (UPDATED) ---
-    glEnable(GL_LIGHTING); // Master switch for lighting
+    glEnable(GL_LIGHTING);
 
-    // Enable all lights from 0 to 3
-    glEnable(GL_LIGHT0);   // Sun/Moon (Directional)
+    glEnable(GL_LIGHT0);   // Sun/Moon
     glEnable(GL_LIGHT1);   // Street Lamps Group 1
     glEnable(GL_LIGHT2);   // Street Lamps Group 2
-    glEnable(GL_LIGHT3);   // CyberTruck Headlight (Spotlight)
+    glEnable(GL_LIGHT3);   // CyberTruck Headlight
 
-    // IMPORTANT: This allows your existing glColor() commands to act as materials
     glEnable(GL_COLOR_MATERIAL);
 
-    // Set Initial Light Properties (Color/Intensity for Sun)
+    // Set Initial Light Properties
     GLfloat sunColor[] = { 1.0f, 0.95f, 0.8f, 1.0f }; // Warm sunlight
     glLightfv(GL_LIGHT0, GL_DIFFUSE, sunColor);
     glLightfv(GL_LIGHT0, GL_SPECULAR, sunColor);
 
-    // Ambient Light (Base brightness so shadows aren't pitch black)
+    // Ambient Light
     GLfloat ambientColor[] = { 0.3f, 0.3f, 0.3f, 1.0f };
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambientColor);
 
-    // --- 5. Projection Setup ---
+    // --- Projection Setup ---
     glClearColor(0, 0, 0, 1);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(0, 1000, 0, 700);
 
-    // --- 6. Callback Registration (From Code 1) ---
+    // --- Callback Registration ---
     glutDisplayFunc(display);
 
     // Timers: Meraz
@@ -12189,9 +11921,8 @@ int main(int argc, char** argv)
     glutKeyboardFunc(selectKeyboard);
     glutSpecialFunc(selectSpecialKeys);
     glutMouseFunc(selectMouse);
-
+    
     glutMainLoop();
 
     return 0;
 }
-
