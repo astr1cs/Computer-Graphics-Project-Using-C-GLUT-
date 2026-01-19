@@ -5,8 +5,8 @@
 using namespace std;
 
 bool scenarioMeraz = true;
+bool scenarioAvishek = false;
 bool scenarioMohaiminul = false;
-bool scenarioMohaimuiul = false;
 
 /// **************************************************************************************************************************************************
 /// ******************************************************** >>> MERAZ <<< ************************************************************************
@@ -4343,7 +4343,7 @@ void sunM()
     glPushMatrix();
     glTranslatef(moveSunM, 0, 0);
 
-    glColor3f(0.97,0.49,0.00);
+    glColor3f(1.0, 1.0, 0.0);
     circleM(200,650,30);
     glPopMatrix();
 }
@@ -5561,7 +5561,6 @@ void raillingM_night()
     }
 }
 
-
 ///boats
 
 //boat 1
@@ -6311,6 +6310,33 @@ void M_bigCross_night()
 
 }
 
+void M_smallCross_night()
+{
+    // Use a grey color so it shows up at night
+    glColor3f(0.7f, 0.7f, 0.7f);
+
+    for (int i = 0; i < 1000; i += 430)
+    {
+        glBegin(GL_QUADS);
+
+        glVertex2f(100 + i, 350);
+        glVertex2f(130 + i, 350);
+        glVertex2f(230 + i, 280);
+        glVertex2f(210 + i, 280);
+
+        glEnd();
+
+        glBegin(GL_QUADS);
+
+        glVertex2f(228 + i, 280);
+        glVertex2f(250 + i, 280);
+        glVertex2f(370 + i, 350);
+        glVertex2f(340 + i, 350);
+
+        glEnd();
+    }
+}
+
 void sky_nightM()
 {
 
@@ -6455,6 +6481,7 @@ void nightM()
     glEnable(GL_LIGHTING);
     trainM_night();
     M_bigCross_night();
+    M_smallCross_night();
     M_star();
     M_car4_night();
     raillingM_night();
@@ -6477,21 +6504,21 @@ void keyboardM(unsigned char key, int x, int y)
     if(key == 'm' || key == 'M')
     {
         scenarioMeraz = false;
-        scenarioMohaimuiul = true;
         scenarioMohaiminul = false;
+        scenarioAvishek = true;
     }
 
     if(key == 's' || key == 'S')
     {
         scenarioMohaiminul = true;
         scenarioMeraz = false;
-        scenarioMohaimuiul = false;
+        scenarioAvishek = false;
     }
 
     if(key == 'v' || key == 'V')
     {
         scenarioMeraz = true;
-        scenarioMohaimuiul = false;
+        scenarioAvishek = false;
         scenarioMohaiminul = false;
     }
 
@@ -11576,21 +11603,21 @@ void selectKeyboard(unsigned char key, int x, int y)
     if(key == 'm' || key == 'M')
     {
         scenarioMeraz = false;
-        scenarioMohaimuiul = true;
+        scenarioAvishek = true;
         scenarioMohaiminul = false;
         glutPostRedisplay();
     }
     else if(key == 's' || key == 'S')
     {
-        scenarioMohaiminul = true;
+        scenarioAvishek = false;
         scenarioMeraz = false;
-        scenarioMohaimuiul = false;
+        scenarioMohaiminul = true;
         glutPostRedisplay();
     }
     else if(key == 'v' || key == 'V')
     {
         scenarioMeraz = true;
-        scenarioMohaimuiul = false;
+        scenarioAvishek = false;
         scenarioMohaiminul = false;
         glutPostRedisplay();
     }
@@ -11609,8 +11636,8 @@ void selectKeyboard(unsigned char key, int x, int y)
         keyboard(key, x, y);
     }
 
-    // --- Scene 2: Mohaimuiul ---
-    if(scenarioMohaimuiul)
+    // --- Scene 2: Avishek ---
+    if(scenarioAvishek)
     {
         keyboardM(key, x, y);
     }
@@ -11659,8 +11686,8 @@ void selectSpecialKeys(int key, int x, int y)
         specialKeys(key, x, y);
     }
 
-    // --- Scene 2: Mohaimuiul ---
-    if(scenarioMohaimuiul)
+    // --- Scene 2: Avishek ---
+    if(scenarioAvishek)
     {
         specialKeysM(key, x, y);
     }
@@ -11751,7 +11778,7 @@ void selectMouse(int button, int state, int x, int y)
         mouse(button, state, x, y);
     }
 
-    if(scenarioMohaimuiul)
+    if(scenarioAvishek)
     {
         M_mouse(button, state, x, y);
     }
@@ -11777,7 +11804,7 @@ void selectMouse(int button, int state, int x, int y)
 void display()
 {
     if(scenarioMeraz) Meraz();
-    if(scenarioMohaimuiul) Avishek();
+    if(scenarioAvishek) Avishek();
     if(scenarioMohaiminul) Mohaiminul();
 
     glutSwapBuffers();
@@ -11805,7 +11832,7 @@ int main(int argc, char** argv)
     cout<<"Press Page Up / Page Down  : Cargo Truck speed (Day/Night)"<<endl<<endl;
     cout<<"Mouse Left Click           : Stop/Start Train (Day) / Moon (Night)"<<endl;
     cout<<"Mouse Right Click          : Stop/Start Sun/Moon"<<endl;
-    cout<<"Mouse Middle Click          : Stop/Start Truck (Day/Night)"<<endl;
+    cout<<"Mouse Middle Click         : Stop/Start Truck (Day/Night)"<<endl;
     cout<<"Press SPACE                : Stop Everything"<<endl;
 
     // ==========================================
@@ -11931,4 +11958,3 @@ int main(int argc, char** argv)
 
     return 0;
 }
-
