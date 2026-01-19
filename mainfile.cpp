@@ -6640,6 +6640,7 @@ int fountainStageM2 = 0;
 bool lampsOnM2 = true;  // Lampposts on/off
 bool fountainsOnM2 = true;  // Fountains on/off
 bool isTrainPausedM2 = false; // False = Train is running by default
+bool isSunMoonPausedM2 = false;
 
 // Circle
 void drawCircle(float cx, float cy, float radius, float r, float g, float b)
@@ -6980,7 +6981,7 @@ void drawBusKLCC(float x, float y, float s, bool faceRight)
 // Sun update function
 void updateSunM2(int value)
 {
-    if(isDayM2)
+    if(isDayM2 && !isSunMoonPausedM2)
     {
         sunX += sunSpeedM2;
         if (sunX > 1050)
@@ -6995,15 +6996,11 @@ void updateSunM2(int value)
 // Moon update function
 void updateMoonM2(int value)
 {
-    if(!isDayM2)
+    if(!isDayM2 && !isSunMoonPausedM2)
     {
         moonX -= moonSpeedM2;
-
-
         if (moonX < -100)
         {
-
-
             moonX = 1050;
         }
         glutPostRedisplay();
@@ -11761,10 +11758,16 @@ void selectMouse(int button, int state, int x, int y)
 
     if (scenarioMohaiminul)
     {
-        // Toggle Train Pause on Left Click
+        // Left Click: Pause/Resume Train
         if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
         {
             isTrainPausedM2 = !isTrainPausedM2;
+        }
+
+        // >>> RIGHT CLICK: PAUSE/RESUME SUN & MOON <<<
+        if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
+        {
+            isSunMoonPausedM2 = !isSunMoonPausedM2;
         }
 
     }
@@ -11823,6 +11826,7 @@ int main(int argc, char** argv)
     cout<<"Press key_up / key_down    : Metro Train Speed"<<endl;
     cout<<"Press key_left / key_right : Sun/Moon Speed"<<endl;
     cout<<"Mouse Left Click           : Pause/Resume Metro Train"<<endl;
+    cout<<"Mouse Right Click          : Pause/Resume Sun/Moon"<<endl;
     cout<<"Page Up / Page Down        : CyberTruck Speed Control"<<endl;
     cout<<"Home / End                 : Bus Speed Control"<<endl;
 
