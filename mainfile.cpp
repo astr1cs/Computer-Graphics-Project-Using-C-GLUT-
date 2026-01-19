@@ -5,7 +5,7 @@
 using namespace std;
 
 bool scenarioMeraz = true;
-bool scenarioMohaimin2 = false;
+bool scenarioMohaiminul = false;
 bool scenarioMohaimuiul = false;
 
 /// **************************************************************************************************************************************************
@@ -2950,7 +2950,7 @@ void Meraz()
 
 
 /// **************************************************************************************************************************************************
-/// ******************************************************** >>> mohaiminul<<< ****************************************************************************
+/// ******************************************************** >>> Avishek<<< ****************************************************************************
 /// **************************************************************************************************************************************************
 
 bool isDayM=true;
@@ -6478,12 +6478,12 @@ void keyboardM(unsigned char key, int x, int y)
     {
         scenarioMeraz = false;
         scenarioMohaimuiul = true;
-        scenarioMohaimin2 = false;
+        scenarioMohaiminul = false;
     }
 
     if(key == 's' || key == 'S')
     {
-        scenarioMohaimin2 = true;
+        scenarioMohaiminul = true;
         scenarioMeraz = false;
         scenarioMohaimuiul = false;
     }
@@ -6492,7 +6492,7 @@ void keyboardM(unsigned char key, int x, int y)
     {
         scenarioMeraz = true;
         scenarioMohaimuiul = false;
-        scenarioMohaimin2 = false;
+        scenarioMohaiminul = false;
     }
 
     if(key == 27)
@@ -6577,7 +6577,7 @@ void M_mouse(int button, int state, int x, int y)
     }
 }
 
-void mohaiminul()
+void Avishek()
 {
     // Depending on the time of day, call day or night function
     if (isDayM)
@@ -6594,7 +6594,7 @@ void mohaiminul()
 
 
 /// **************************************************************************************************************************************************
-/// ******************************************************** >>>Mohaimin2 (KLCC) <<< ******************************************************************
+/// ******************************************************** >>> Mohaiminul (KLCC) <<< ******************************************************************
 /// **************************************************************************************************************************************************
 
 // Helper Functions and Variables
@@ -7015,7 +7015,7 @@ void updateMoonM2(int value)
 
 void updateCloudsKLCC(int value)
 {
-    if (scenarioMohaimin2)
+    if (scenarioMohaiminul)
     {
         // --- CLOUD 1  ---
         c1_off -= s1;
@@ -7172,7 +7172,7 @@ void updateTrainKLCC(int value)
 
 void updateBusKLCC(int value)
 {
-    if (scenarioMohaimin2)
+    if (scenarioMohaiminul)
     {
         busFaceRightM2 = false;
 
@@ -7196,7 +7196,7 @@ void updateBusKLCC(int value)
 }
 
 
-void Mohaimin2()
+void Mohaiminul()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
@@ -11580,12 +11580,12 @@ void selectKeyboard(unsigned char key, int x, int y)
     {
         scenarioMeraz = false;
         scenarioMohaimuiul = true;
-        scenarioMohaimin2 = false;
+        scenarioMohaiminul = false;
         glutPostRedisplay();
     }
     else if(key == 's' || key == 'S')
     {
-        scenarioMohaimin2 = true;
+        scenarioMohaiminul = true;
         scenarioMeraz = false;
         scenarioMohaimuiul = false;
         glutPostRedisplay();
@@ -11594,7 +11594,7 @@ void selectKeyboard(unsigned char key, int x, int y)
     {
         scenarioMeraz = true;
         scenarioMohaimuiul = false;
-        scenarioMohaimin2 = false;
+        scenarioMohaiminul = false;
         glutPostRedisplay();
     }
     else if(key == 27) // Escape key
@@ -11618,8 +11618,8 @@ void selectKeyboard(unsigned char key, int x, int y)
         keyboardM(key, x, y);
     }
 
-    // --- Scene 3: Mohaimin2 (KLCC) ---
-    if (scenarioMohaimin2)
+    // --- Scene 3: Mohaiminul (KLCC) ---
+    if (scenarioMohaiminul)
     {
         // Day/Night Toggle
         if(key == 'd' || key == 'D')
@@ -11668,8 +11668,8 @@ void selectSpecialKeys(int key, int x, int y)
         specialKeysM(key, x, y);
     }
 
-    // --- Scene 3: Mohaimin2 (KLCC) ---
-    if (scenarioMohaimin2)
+    // --- Scene 3: Mohaiminul (KLCC) ---
+    if (scenarioMohaiminul)
     {
         // ---------------------------------------------------------
         // 1. TRAIN SPEED (UP/DOWN) - Works in both Day and Night
@@ -11759,7 +11759,7 @@ void selectMouse(int button, int state, int x, int y)
         M_mouse(button, state, x, y);
     }
 
-    if (scenarioMohaimin2)
+    if (scenarioMohaiminul)
     {
         // Toggle Train Pause on Left Click
         if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
@@ -11774,8 +11774,8 @@ void selectMouse(int button, int state, int x, int y)
 void display()
 {
     if(scenarioMeraz) Meraz();
-    if(scenarioMohaimuiul) mohaiminul();
-    if(scenarioMohaimin2) Mohaimin2();
+    if(scenarioMohaimuiul) Avishek();
+    if(scenarioMohaiminul) Mohaiminul();
 
     glutSwapBuffers();
 }
@@ -11845,6 +11845,7 @@ int main(int argc, char** argv)
 
     glEnable(GL_LIGHTING);
 
+
     glEnable(GL_LIGHT0);   // Sun/Moon
     glEnable(GL_LIGHT1);   // Street Lamps Group 1
     glEnable(GL_LIGHT2);   // Street Lamps Group 2
@@ -11882,7 +11883,7 @@ int main(int argc, char** argv)
     glutTimerFunc(2, updateCar, 0);
     glutTimerFunc(16, V_updateCargo, 0);
 
-    // Timers: mohaiminul
+    // Timers: Avishek
     glutTimerFunc(16, updateBoat1M, 0);
     glutTimerFunc(10, updateBoat2M, 0);
     glutTimerFunc(16, updateCar1M, 0);
@@ -11908,7 +11909,7 @@ int main(int argc, char** argv)
     glutTimerFunc(16, updateCloud1M_night, 0);
     glutTimerFunc(18, updateCloud2M_night, 0);
 
-    // Timers: Mohaimin2 (KLCC scene)
+    // Timers: Mohaiminul (KLCC scene)
     glutTimerFunc(16, updateSunM2, 0);
     glutTimerFunc(16, updateMoonM2, 0);
     glutTimerFunc(0, updateTrainKLCC, 0);
@@ -11921,8 +11922,9 @@ int main(int argc, char** argv)
     glutKeyboardFunc(selectKeyboard);
     glutSpecialFunc(selectSpecialKeys);
     glutMouseFunc(selectMouse);
-    
+
     glutMainLoop();
 
     return 0;
 }
+
