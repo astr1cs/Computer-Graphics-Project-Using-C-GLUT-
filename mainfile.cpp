@@ -5,8 +5,8 @@
 using namespace std;
 
 bool scenarioMeraz = true;
-bool scenarioMohaiminul = false;
 bool scenarioAvishek = false;
+bool scenarioMohaiminul = false;
 
 /// **************************************************************************************************************************************************
 /// ******************************************************** >>> MERAZ <<< ************************************************************************
@@ -6265,35 +6265,48 @@ void M_bigCross_night()
 
     glBegin(GL_LINES);
     glColor3f(0.8f, 0.8f, 0.8f);
-
-    glVertex2f(0, topY);
-    glVertex2f(220, botY);
-    glVertex2f(220, botY);
-    glVertex2f(440, topY);
-
-    glVertex2f(440, topY);
-    glVertex2f(660, botY);
-    glVertex2f(660, botY);
-    glVertex2f(880, topY);
-
-    glVertex2f(880, topY);
-    glVertex2f(1050, botY);
+    glVertex2f(220,205);
+    glVertex2f(440,340);
     glEnd();
 
+    glLineWidth(20);
+    glBegin(GL_LINES);
+
     glColor3f(0.8f, 0.8f, 0.8f);
+    glVertex2f(440,340);
+    glVertex2f(660,205);
+    glEnd();
 
-    circleM(220, botY, 10);
-    circleM(660, botY, 10);
-    circleM(1050, botY, 10);
+    glLineWidth(20);
+    glBegin(GL_LINES);
 
-    circleM(0, topY, 10);
-    circleM(440, topY, 10);
-    circleM(880, topY, 10);
+    glColor3f(0.8f, 0.8f, 0.8f);
+    glVertex2f(660,205);
+    glVertex2f(880,340);
+    glEnd();
 
+    glLineWidth(20);
+    glBegin(GL_LINES);
+
+    glColor3f(0.8f, 0.8f, 0.8f);
+    glVertex2f(880,340);
+    glVertex2f(1050,205);
+    glEnd();
+
+        glBegin(GL_QUADS);
+
+        glVertex2f(228 + i, 280);
+        glVertex2f(250 + i, 280);
+        glVertex2f(370 + i, 350);
+        glVertex2f(340 + i, 350);
+
+        glEnd();
+    }
 }
 
 void M_smallCross_night()
 {
+    // Use a grey color so it shows up at night
     glColor3f(0.7f, 0.7f, 0.7f);
 
     for (int i = 0; i < 1000; i += 430)
@@ -6485,8 +6498,8 @@ void keyboardM(unsigned char key, int x, int y)
     if(key == 'm' || key == 'M')
     {
         scenarioMeraz = false;
-        scenarioAvishek = true;
         scenarioMohaiminul = false;
+        scenarioAvishek = true;
     }
 
     if(key == 's' || key == 'S')
@@ -6632,10 +6645,6 @@ float trainKLCCSpeed = 2.0f;
 float carKLCCX = -150.0f;
 float carKLCCSpeed = 3.0f;
 float carWheelAngle = 0.0f;
-
-// --- Red Car Variables for KLCC ---
-float redCarKLCC_X = 30.0f;
-float redCarKLCC_Speed = 3.2f;
 
 // ====================
 // BUS VARIABLES
@@ -6989,120 +6998,6 @@ void drawBusKLCC(float x, float y, float s, bool faceRight)
 }
 
 
-void drawRedCarKLCC()
-{
-    glPushMatrix();
-    glTranslatef(redCarKLCC_X, -90.0f, 0.0f);
-
-
-    // --- CAR BODY ---
-    glBegin(GL_POLYGON);
-    if (isDayM2)
-        glColor3f(1.0f, 0.0f, 0.0f); // Bright Red (Day)
-    else
-        glColor3f(0.5f, 0.0f, 0.0f); // Dark Red (Night)
-
-    // Y values increased by 10
-    glVertex2i(130, 165);
-    glVertex2i(130, 180);
-    glVertex2i(135, 190);
-    glVertex2i(223, 190);
-    glVertex2i(235, 185);
-    glVertex2i(235, 165);
-    glEnd();
-
-    // --- LIGHTS ---
-    glBegin(GL_QUADS);
-
-    if (isDayM2) glColor3f(1, 1, 1);
-    else glColor3f(1, 1, 0.7f);
-    glVertex2i(230, 168);
-    glVertex2i(235, 168);
-    glVertex2i(235, 175);
-    glVertex2i(230, 175);
-
-
-    if (isDayM2) glColor3f(1, 1, 1);
-    else glColor3f(1, 0, 0);
-    glVertex2i(130, 168);
-    glVertex2i(135, 168);
-    glVertex2i(135, 175);
-    glVertex2i(130, 175);
-
-    // --- NIGHT HEADLIGHT BEAM (FIXED) ---
-    if (!isDayM2)
-    {
-        glColor4f(1.0f, 1.0f, 0.7f, 0.3f); // Transparent yellow beam
-
-
-        glVertex2i(235, 168);
-        glVertex2i(290, 155);
-        glVertex2i(290, 190);
-        glVertex2i(235, 175);
-    }
-    glEnd();
-
-    // --- ROOF ---
-    glBegin(GL_POLYGON);
-    if (isDayM2) glColor3f(1.0f, 0.0f, 0.0f);
-    else glColor3f(0.5f, 0.0f, 0.0f);
-
-    glVertex2i(140, 185);
-    glVertex2i(151, 208);
-    glVertex2i(200, 208);
-    glVertex2i(220, 185);
-    glEnd();
-
-    // --- WINDOWS ---
-    glBegin(GL_QUADS);
-    if (isDayM2) glColor3f(0.27f, 0.28f, 0.29f);
-    else glColor3f(0.15f, 0.07f, 0.03f);
-    glVertex2i(153, 190);
-    glVertex2i(153, 202);
-    glVertex2i(175, 202);
-    glVertex2i(175, 190);
-    glEnd();
-
-    glBegin(GL_QUADS);
-    if (isDayM2) glColor3f(0.27f, 0.28f, 0.29f);
-    else glColor3f(0.15f, 0.07f, 0.03f);
-    glVertex2i(182, 191);
-    glVertex2i(182, 202);
-    glVertex2i(198, 202);
-    glVertex2i(207, 191);
-    glEnd();
-
-    // --- WHEELS ---
-
-    // Rear Wheel
-    if (isDayM2) glColor3f(0.34f, 0.34f, 0.34f);
-    else glColor3f(0.15f, 0.15f, 0.15f);
-    halfCircle(155, 165, 10); // Fender
-
-    if (isDayM2) glColor3f(0.0f, 0.0f, 0.0f);
-    else glColor3f(0.0f, 0.0f, 0.0f);
-    circle(155, 165, 9); // Tire
-
-    if (isDayM2) glColor3f(1.0f, 1.0f, 1.0f);
-    else glColor3f(0.5f, 0.5f, 0.5f);
-    circle(155, 165, 3); // Rim
-
-    // Front Wheel
-    if (isDayM2) glColor3f(0.34f, 0.34f, 0.34f);
-    else glColor3f(0.15f, 0.15f, 0.15f);
-    circle(205, 165, 10); // Fender
-
-    if (isDayM2) glColor3f(0.0f, 0.0f, 0.0f);
-    else glColor3f(0.0f, 0.0f, 0.0f);
-    circle(205, 165, 9); // Tire
-
-    if (isDayM2) glColor3f(1.0f, 1.0f, 1.0f);
-    else glColor3f(0.5f, 0.5f, 0.5f);
-    circle(205, 165, 3); // Rim
-
-    glPopMatrix();
-}
-
 
 // Sun update function
 void updateSunM2(int value)
@@ -7179,15 +7074,15 @@ void updateFountainAnimM2(int value)
         {
             fountainStageM2 = 0;
         }
+        glutPostRedisplay();
+
+        glutTimerFunc(300, updateFountainAnimM2, 0);
     }
-
-    glutPostRedisplay();
-
-    glutTimerFunc(400, updateFountainAnimM2, 0);
 }
 
 void updateCarKLCC(int value)
 {
+    // Move Car Forward
     carKLCCX += carKLCCSpeed;
 
 
@@ -7263,6 +7158,7 @@ void setBusHeadlight(float x, float y, bool faceRight)
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT6);
 
+    //Configure Properties (White/Yellow Beam)
     GLfloat lightColor[] = { 1.0f, 1.0f, 0.9f, 1.0f };
 
 
@@ -7834,6 +7730,7 @@ void Mohaiminul()
     // 3 FOUNTAINS (Fixed Loop - Sprays Included)
     // ==========================================
 
+
     for (int i = 0; i < 3; i++)
     {
         float x = 400.0f + (i * 100.0f);
@@ -7858,7 +7755,7 @@ void Mohaiminul()
         glVertex2f(x - 8, baseY + 18);
         glEnd();
 
-        // Check if Master Switch is ON
+        // --- STRAIGHT JETS (Core Water) ---
         if(fountainsOnM2)
         {
             glColor3f(0.8f, 0.95f, 1.0f); // Light Blue
@@ -7884,7 +7781,7 @@ void Mohaiminul()
                 glEnd();
             }
 
-            // ---  SPRAY ARCS  ---
+            // ---  SPRAY ARCS ---
 
             // STAGE 4: Top High Spray
             if (fountainStageM2 >= 4)
@@ -11577,8 +11474,6 @@ void Mohaiminul()
 
 
 
-
-
         // SETUP LIGHTS
         setBusHeadlight(busXM2, 5.0f, false);
         drawBusKLCC(busXM2, 5.0f, 1.0f, false);
@@ -11735,9 +11630,9 @@ void selectKeyboard(unsigned char key, int x, int y)
     }
     else if(key == 's' || key == 'S')
     {
-        scenarioMohaiminul = true;
-        scenarioMeraz = false;
         scenarioAvishek = false;
+        scenarioMeraz = false;
+        scenarioMohaiminul = true;
         glutPostRedisplay();
     }
     else if(key == 'v' || key == 'V')
@@ -11959,7 +11854,7 @@ int main(int argc, char** argv)
     cout<<"Press Page Up / Page Down  : Cargo Truck speed (Day/Night)"<<endl<<endl;
     cout<<"Mouse Left Click           : Stop/Start Train (Day) / Moon (Night)"<<endl;
     cout<<"Mouse Right Click          : Stop/Start Sun/Moon"<<endl;
-    cout<<"Mouse Middle Click          : Stop/Start Truck (Day/Night)"<<endl;
+    cout<<"Mouse Middle Click         : Stop/Start Truck (Day/Night)"<<endl;
     cout<<"Press SPACE                : Stop Everything"<<endl;
 
     // ==========================================
@@ -12086,4 +11981,3 @@ int main(int argc, char** argv)
 
     return 0;
 }
-
